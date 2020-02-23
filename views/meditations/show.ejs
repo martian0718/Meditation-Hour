@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MeditationHour</title>
+        
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/stylesheets/main.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/typeit@6.1.1/dist/typeit.min.js"></script>
+        
+
+    </head>
+    <body onload="countdown();">
+
+      <nav id = "navbar" class="navbar navbar-default navbar-expand-md navbar-light sticky-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">MeditationHour</a>
+
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class = "navbar-toggler-icon">
+                    <i class = "fas fa-bar"></i>
+                  </span>
+                </button>
+            </div>
+            <div id="navbarSupportedContent" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li class="<%= typeof page !== 'undefined' && page === 'workouts' ? 'active' : '' %>"><a href="/meditations">Discover</a></li>
+              </ul>
+              <ul class="nav navbar-nav ml-auto">
+                  <% if(!currentUser){ %>
+                      <li class="<%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %> px-3"><a href="/login">Login</a></li>
+                      <li class="<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %> px-3"><a href="/register">Sign Up</a></li>
+                  <% } else { %>
+                      <li class = "px-3"><a href="/users/<%=currentUser._id%>">Signed In As <%= currentUser.username %></a></li>
+                      <li class = "px-4"><a href="/logout">Logout</a></li>
+                  <% } %>
+              </ul>
+            </div>
+        </div>
+    </nav>
+
+
+          <div class = "container mt-3">
+            <%if(error && error.length > 0){%>
+              <div class = "alert alert-danger" role = "alert">
+                <%=error%>
+              </div>
+            <%}%>
+            <%if(success && success.length > 0){%>
+              <div class = "alert alert-success" role = "alert">
+                <%=success%>
+              </div>
+            <%}%>
+          </div>
+
+          <div class = "container">
+
+
+    <div class = "row">
+        <div class = "col-md-3">
+            <p class = "lead">MeditationHour</p>
+            <!--list group-->
+            <div class = "list-group">
+                <li class = "list-group-item" style = "text-transform: uppercase;">Meditation provided by <%=meditation.author.username%></li>
+                <li class = "list-group-item" style = "text-transform: uppercase;"> <a href="/users/<%=meditation.author.id%>">Visit <%=meditation.author.username%>'s profile</a></li>
+            </div>
+        </div>
+
+        <%if(true){%>
+          <script> 
+
+            var hrs = 0;
+            //set minutes 
+            var mins = 0; 
+    
+            var secsonly = 3;
+            //calculate the seconds 
+            //var total = (mins * 60) + (hrs * 3600) + secsonly; 
+            var total = <%= meditation.time %>
+
+            console.log(total);
+            //countdown function is evoked when page is loaded 
+            function countdown() { 
+                setTimeout('Decrement()', 60); 
+            } 
+      
+            //Decrement function decrement the value. 
+            function Decrement() { 
+                if (document.getElementById) { 
+                    hours = document.getElementById("hours");
+                    minutes = document.getElementById("minutes"); 
+                    seconds = document.getElementById("seconds"); 
+      
+                    //if less than a minute remaining 
+                    //Display only seconds value. 
+                    if (seconds < 59) { 
+                        seconds.value = total; 
+                    } 
+      
+                    //Display both minutes and seconds 
+                    //getminutes and getseconds is used to 
+                    //get minutes and seconds 
+                    else { 
+                        hours.value = gethours();
+                        minutes.value = getminutes(); 
+                        seconds.value = getseconds(); 
+                    } 
+                    //if seconds becomes zero, 
+                    //then page alert time up 
+                    if (total < 0) { 
+                        alert('time is up'); 
+                        hours.value = 0;
+                        minutes.value = 0; 
+                        seconds.value = 0; 
+                    } 
+                    //if seconds > 0 then seconds is decremented 
+                    else { 
+                        total--; 
+                        setTimeout('Decrement()', 1000); 
+                    } 
+                } 
+            } 
+    
+            function gethours() {
+              hrs = Math.floor(total/3600);
+              return hrs;
+            }
+      
+            function getminutes() { 
+                //minutes is seconds divided by 60, rounded down
+                  mins = Math.floor(total/60) - (hours.value * 60); 
+                return mins; 
+            } 
+      
+            function getseconds() { 
+                //take minutes remaining (as seconds) away  
+                //from total seconds remaining 
+                return total - Math.round(mins * 60) - Math.round(hrs * 3600); 
+            } 
+        </script> 
+        <script src="http://code.jquery.com/jquery-1.7.min.js"></script>
+        <script>
+              $(function () {
+                  var messages = [],
+                      index = 0;
+              
+                  messages.push('Inhale');
+                  messages.push('Exhale');
+              
+                  function cycle() {
+                        if (total == 0)
+                        {
+                          index = 2;
+                          $('#some-id').html(messages[index]);
+                          return;
+                        }
+                        else if (total > 0)
+                        {
+                        $('#some-id').html(messages[index]);
+                        index++;
+          
+                       if (index === messages.length) {
+                           index = 0;
+                        }
+                      setTimeout(cycle, 3000);
+                        }
+                      
+                  }
+              
+                  cycle();
+              });
+              </script>
+        <%}%>
+
+        <div class = "col-md-9">
+            <h4>Meditation Length: <%=meditation.time%> seconds</h4>
+            <div class = "thumbnail">
+                
+                <div>
+                    <center> 
+                    <h1>
+                      Time Left
+                      </h1>
+                      <input id = "hours" type="text" style="width: 70px; border: none; font-size: 50px; font-weight: bold; color: black;">
+                      <font size="15">
+                        Hours : 
+                      </font> 
+                      <input id="minutes" type="text" style="width: 70px; border: none; font-size: 50px; font-weight: bold; color: black;">
+                          <font size="15">
+                             Minutes : 
+                          </font> 
+                      <input id="seconds" type="text" style="width: 70px; border: none; font-size: 50px; font-weight: bold; color: black;"> 
+                          <font size = "15">
+                            Seconds
+                          </font>
+                    </center>
+                    <center>
+                            <h1 id = "some-id", type = "text" style = "font-size: 50px;"></h1>
+                          </center>
+                  </div> 
+
+                <div class = "caption-full">
+                    
+                    <h4><%= meditation.name %></h4><br>
+                    <em><h5 class = "mt-0 mb-4"><%=meditation.description%></h5></em>
+                    <p><em>Meditation provided by <a href="/users/<%=meditation.author.id%>"><%=meditation.author.username%></a>, <%=moment(meditation.createdAt).fromNow()%></em></p>
+                    <%if(currentUser && meditation.author.id.equals(currentUser._id)){%>
+                        <a class = "btn btn-warning btn-sm" href="/meditations/<%=meditation._id%>/edit">Edit</a>
+                        <form id = "delete-form"action="/meditations/<%=meditation._id%>?_method=DELETE" method = "POST">
+                            <button class = "btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    <%}%>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<%- include("../partials/footer") %>

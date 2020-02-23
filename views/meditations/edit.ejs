@@ -1,0 +1,30 @@
+<%- include("../partials/header") %>
+
+
+
+    <div class = "row">
+        
+        <div style = "width: 30%; margin: 30px auto;">
+            <h1 style = "text-align: center">Edit <%=meditation.name%></h1>
+            <form action="/meditations/<%=meditation._id%>/?_method=PUT" method = "POST" enctype="multipart/form-data">
+                <div class = "form-group">
+                    <input class = "form-control" type="text" value = "<%=meditation.name%>" name = "meditation[name]">
+                </div>
+                <div class = "form-group">
+                    <label for="description">Description</label>
+                    <textarea class = "form-control" name="meditation[description]" id="description" cols="30" rows="5"><%=meditation.description%></textarea>
+                </div>
+                <div class = "form-group">
+                    <button class = "btn btn-lg btn-primary btn-block">Submit!</button>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    <div class = "row text-align-center">
+
+        <a href="/meditations/<%=meditation._id%>">Go back</a>
+    </div>
+    
+
+<%- include("../partials/footer") %>

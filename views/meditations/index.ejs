@@ -1,0 +1,38 @@
+<%- include("../partials/header") %>
+
+
+    <header class = "jumbotron">
+        <div class = "container">
+            <h1>Welcome to Meditation Hour!</h1>
+            <p>View all the meditations that our community has completed</p>
+            <p>
+                <a class = "btn btn-primary btn-lg" href="/meditations/new">Add New Meditations</a>
+            </p>
+        </div>
+    </header>
+
+    <div class = "row" style = "display: flex; flex-wrap: wrap;">
+        <div class = "card-group">
+            <% meditations.forEach(function(meditation){%>
+                <div class = "col-md-3 col-sm-6 d-flex">
+                    <div class = "card mb-3 flex-fill d-flex flex-column align-items-start">
+                        <div class = "card-title mt-3 ml-3">
+                            <a class = "h4" style = "color: black;" href = "/meditations/<%=meditation._id%>"><%=meditation.name%></a>
+                        </div>
+                        <p class = "card-text mb-3 px-3">
+                            <%=meditation.description%>
+                        </p>
+                        <p class = "ml-3 mt-auto">
+                            <a href="/meditations/<%=meditation._id%>" class = "btn btn-primary">Meditate!</a>
+                        </p>
+                        <p class = "text-left ml-3 mt-auto"><b>Meditation by</b> <a href="/users/<%=meditation.author.id%>" style = "color: black;"><%=meditation.author.username%></a></p>
+                    </div>
+                </div>
+            <%});%>
+        </div>
+    </div>
+    
+
+
+
+<%- include("../partials/footer") %>

@@ -1,0 +1,22 @@
+<%- include("./partials/header") %>
+
+
+
+<h2 class = "font-weight-bold display-1 text-white" id = "title"></h2>
+<h6 class = "font-weight-bold display-4" id = "info"></h6>
+
+<%- include("./partials/footer") %>
+<script>
+    const instance1 = new TypeIt('#title', {
+    strings: 'MEDITATION HOUR',
+    speed: 200,
+    waitUntilVisible: true
+  }).go();
+
+  const instance2 = new TypeIt('#info', {
+      strings: "Need a mental break? Need some time to quietly reflect? Meditation Hour can help guide you on regaining your composure and reflecting on your day. Track your meditations and how you felt to see what worked to calm you down.",
+      speed: 50,
+      startDelay: 5000,
+      waitUntilVisible: true
+  }).go();
+</script>
